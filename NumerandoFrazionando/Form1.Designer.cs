@@ -32,11 +32,12 @@
             this.numeratore_label = new System.Windows.Forms.Label();
             this.denominatore_label = new System.Windows.Forms.Label();
             this.riga = new System.Windows.Forms.Label();
+            this.Semplifica_fraz = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // inserisci_frazione
             // 
-            this.inserisci_frazione.Location = new System.Drawing.Point(344, 421);
+            this.inserisci_frazione.Location = new System.Drawing.Point(342, 398);
             this.inserisci_frazione.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.inserisci_frazione.Name = "inserisci_frazione";
             this.inserisci_frazione.Size = new System.Drawing.Size(312, 81);
@@ -77,11 +78,22 @@
             this.riga.TabIndex = 3;
             this.riga.Text = "---------------------------";
             // 
+            // Semplifica_fraz
+            // 
+            this.Semplifica_fraz.Location = new System.Drawing.Point(12, 192);
+            this.Semplifica_fraz.Name = "Semplifica_fraz";
+            this.Semplifica_fraz.Size = new System.Drawing.Size(182, 91);
+            this.Semplifica_fraz.TabIndex = 4;
+            this.Semplifica_fraz.Text = "SEMPLIFICA LA FRAZIONE";
+            this.Semplifica_fraz.UseVisualStyleBackColor = true;
+            this.Semplifica_fraz.Click += new System.EventHandler(this.Semplifica_fraz_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(962, 515);
+            this.Controls.Add(this.Semplifica_fraz);
             this.Controls.Add(this.riga);
             this.Controls.Add(this.denominatore_label);
             this.Controls.Add(this.numeratore_label);
@@ -102,6 +114,7 @@
         private System.Windows.Forms.Label numeratore_label;
         private System.Windows.Forms.Label denominatore_label;
         private System.Windows.Forms.Label riga;
+        private System.Windows.Forms.Button Semplifica_fraz;
     }
 }
 

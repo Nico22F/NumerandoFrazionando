@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -23,7 +24,13 @@ namespace NumerandoFrazionando
             numeratore_label.Visible = false;
             denominatore_label.Visible = false;
             riga.Visible = false;
+            Semplifica_fraz.Visible = false;
         }
+
+        // variabili globali
+
+        int numeratore;
+        int denominatore;
 
         public class Frazione
         {
@@ -32,10 +39,17 @@ namespace NumerandoFrazionando
 
 
             public int Numeratore
-            { get { return numeratore; } set { numeratore = value; } }
+            { get { return numeratore; } set { this.numeratore = value; } }
 
             public int Denominatore
             { get { return denominatore; } set { denominatore = value; } }
+
+            // semplifica la frazione se possibile
+
+            public void Semplifica(int num, int den)
+            {
+
+            }
 
 
         }
@@ -62,7 +76,7 @@ namespace NumerandoFrazionando
                 }
                 else // input corretto
                 {
-                    int numeratore = prova_numero;
+                    numeratore = prova_numero;
 
                     // denominatore
 
@@ -84,7 +98,7 @@ namespace NumerandoFrazionando
                         }
                         else // input corretto
                         {
-                            int denominatore = prova_numero;
+                            denominatore = prova_numero;
 
                             // mostro la frazione
 
@@ -95,11 +109,21 @@ namespace NumerandoFrazionando
 
                             denominatore_label.Text = denominatore.ToString();
                             denominatore_label.Visible = true;
+
+                            // mostro bottoni
+
+                            Semplifica_fraz.Visible = true;
                         }
 
                     }
                 }
             }
+        }
+
+        // SEMPLIFICA FRAZIONE
+        private void Semplifica_fraz_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
