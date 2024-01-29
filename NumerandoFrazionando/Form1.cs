@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.VisualBasic;
+using static NumerandoFrazionando.Form1;
 
 namespace NumerandoFrazionando
 {
@@ -29,13 +30,12 @@ namespace NumerandoFrazionando
 
         // variabili globali
 
-        int numeratore;
-        int denominatore;
-
         public class Frazione
         {
             private int numeratore;
             private int denominatore;
+            private bool segno_negativo1; // numeratore
+            private bool segno_negativo2; // denominatore
 
 
             public int Numeratore
@@ -44,10 +44,87 @@ namespace NumerandoFrazionando
             public int Denominatore
             { get { return denominatore; } set { denominatore = value; } }
 
+            public bool Segno_negativo1
+            { get { return segno_negativo1; } set { segno_negativo1 = value; } }
+
+            public bool Segno_negativo2
+            { get { return segno_negativo2; } set { segno_negativo2 = value; } }
+
+
+            public bool ControlloSegno( int n)
+            {
+                bool segno = false;
+
+                if (n < 0)
+                {
+                    segno = true;
+                }
+
+                return segno;
+            }
+
+            // trova il numero minore
+
+
+            public int TrovaMinore(int n1, int n2)
+            {
+                // rendo i numeri positivi
+
+                if (n1 < 0)
+                {
+                    n1 *= -1;
+                }
+
+                if (n2 < 0)
+                {
+                    n2 *= -1;
+                }
+
+                // trovo il numero più piccolo
+
+                int min = 0;
+
+                if (n1 < n2)
+                {
+                    min = n1;
+                }
+                else if (n2 < n1)
+                {
+                    min = n2;
+                }
+                else if (n1 == n2)
+                {
+                    min = n1;
+                }
+
+                return min;
+            }
+
             // semplifica la frazione se possibile
 
-            public void Semplifica(int num, int den)
+            public void Semplifica(int num,int den)
             {
+                // semplifico numeri
+
+                int min = TrovaMinore(num, den);
+
+                for (int i = 0; i < min; i++)
+                {
+                    if (num % i == 0 && den % i == 0)
+                    {
+                        num /= i; den /= i;
+                    }
+                }
+
+                // semplifico segni 
+
+                if (Segno_negativo1 == true && Segno_negativo2 == true)
+                {
+                    numeratore *= -1;
+                    denominatore *= -1;
+                }
+
+               
 
             }
 
@@ -58,6 +135,7 @@ namespace NumerandoFrazionando
         private void inserisci_frazione_Click(object sender, EventArgs e)
         {
             // input modfica prodotto nome
+            Frazione frazione = new Frazione();
 
             string titolo_input = "Creazione Frazione", frase = "Inserisci il numeratore";
             object input_numeratore = Interaction.InputBox(frase, titolo_input);
@@ -76,7 +154,11 @@ namespace NumerandoFrazionando
                 }
                 else // input corretto
                 {
-                    numeratore = prova_numero;
+                    frazione.Numeratore = prova_numero;
+
+                    // controllo segno
+
+                    frazione.Segno_negativo1 = frazione.ControlloSegno(frazione.Numeratore);
 
                     // denominatore
 
@@ -98,16 +180,20 @@ namespace NumerandoFrazionando
                         }
                         else // input corretto
                         {
-                            denominatore = prova_numero;
+                            frazione.Denominatore = prova_numero;
+
+                            // controllo segno
+
+                            frazione.Segno_negativo2 = frazione.ControlloSegno(frazione.Denominatore);
 
                             // mostro la frazione
 
-                            numeratore_label.Text = numeratore.ToString();
+                            numeratore_label.Text = frazione.Numeratore.ToString();
                             numeratore_label.Visible = true;
 
                             riga.Visible = true;
 
-                            denominatore_label.Text = denominatore.ToString();
+                            denominatore_label.Text = frazione.Denominatore.ToString();
                             denominatore_label.Visible = true;
 
                             // mostro bottoni
@@ -123,6 +209,13 @@ namespace NumerandoFrazionando
         // SEMPLIFICA FRAZIONE
         private void Semplifica_fraz_Click(object sender, EventArgs e)
         {
+            Frazione frazione = new Frazione();
+
+            
+            frazione.Semplifica(frazione.Numeratore,frazione.Denominatore);
+
+            numeratore_label.Text = frazione.Numeratore.ToString();
+            denominatore_label.Text = frazione.Denominatore.ToString();
 
         }
     }
