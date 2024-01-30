@@ -19,7 +19,7 @@ namespace NumerandoFrazionando
         {
             InitializeComponent();
         }
-
+        Frazione frazione = new Frazione();
         private void Form1_Load(object sender, EventArgs e)
         {
             numeratore_label.Visible = false;
@@ -106,13 +106,24 @@ namespace NumerandoFrazionando
             {
                 // semplifico numeri
 
-                int min = TrovaMinore(num, den);
+                bool semplifica = true;
 
-                for (int i = 0; i < min; i++)
+                while (semplifica == true)
                 {
-                    if (num % i == 0 && den % i == 0)
+                    semplifica = false;
+
+                    int min = TrovaMinore(num, den);
+
+                    for (int i = 1; i < min; i++)
                     {
-                        num /= i; den /= i;
+                        if (num % i == 0 && den % i == 0)
+                        {
+                            if (i != 1)
+                            {
+                                num /= i; den /= i;
+                                semplifica = true;
+                            }
+                        }
                     }
                 }
 
@@ -120,11 +131,12 @@ namespace NumerandoFrazionando
 
                 if (Segno_negativo1 == true && Segno_negativo2 == true)
                 {
-                    numeratore *= -1;
-                    denominatore *= -1;
+                    num *= -1;
+                    den *= -1;
                 }
 
-               
+                numeratore = num;
+                denominatore = den;
 
             }
 
@@ -135,7 +147,6 @@ namespace NumerandoFrazionando
         private void inserisci_frazione_Click(object sender, EventArgs e)
         {
             // input modfica prodotto nome
-            Frazione frazione = new Frazione();
 
             string titolo_input = "Creazione Frazione", frase = "Inserisci il numeratore";
             object input_numeratore = Interaction.InputBox(frase, titolo_input);
@@ -209,8 +220,6 @@ namespace NumerandoFrazionando
         // SEMPLIFICA FRAZIONE
         private void Semplifica_fraz_Click(object sender, EventArgs e)
         {
-            Frazione frazione = new Frazione();
-
             
             frazione.Semplifica(frazione.Numeratore,frazione.Denominatore);
 
