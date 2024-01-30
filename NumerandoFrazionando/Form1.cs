@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -20,12 +21,20 @@ namespace NumerandoFrazionando
             InitializeComponent();
         }
         Frazione frazione = new Frazione();
+        Frazione2 frazione2 = new Frazione2();
         private void Form1_Load(object sender, EventArgs e)
         {
             numeratore_label.Visible = false;
             denominatore_label.Visible = false;
             riga.Visible = false;
             Semplifica_fraz.Visible = false;
+            somma_bottone.Visible = false;
+            sottrai_bottone.Visible = false;
+            moltiplica_button.Visible = false;
+            divisione_button.Visible = false;
+            eleva_button.Visible = false;
+            conversione_button.Visible = false;
+            conv_fraz_button.Visible = false;
         }
 
         // variabili globali
@@ -140,6 +149,60 @@ namespace NumerandoFrazionando
 
             }
 
+            // somma
+
+            public void Somma(int num, int den)
+            {
+                int somma = num+den;
+                MessageBox.Show($"{somma}");
+            }
+
+            // sottrai
+
+            public void Sottrai(int num, int den)
+            {
+                int sottrazione = num - den;
+                MessageBox.Show($"{sottrazione}");
+            }
+
+            // moltiplica
+            public void Moltiplica(int num, int den)
+            {
+                int molt = num * den;
+                MessageBox.Show($"{molt}");
+            }
+
+            // dividi
+
+            public void Dividi(int num, int den)
+            {
+                int dividi = num / den;
+                MessageBox.Show($"{dividi}");
+            }
+
+        }
+
+        // classe derivata
+
+        class Frazione2 : Frazione
+        {
+
+            public void Eleva(int num, int den, int elevazione)
+            {
+                num = Convert.ToInt16(Math.Pow(Convert.ToDouble(num), Convert.ToDouble(elevazione)));
+                den = Convert.ToInt16(Math.Pow(Convert.ToDouble(den), Convert.ToDouble(elevazione)));
+                // aggiorno frazione
+
+                Numeratore = num;
+                Denominatore = den;
+            }
+
+            public void Converti(int num, int den)
+            {
+                double dividi = Convert.ToDouble(num) / Convert.ToDouble(den);
+                MessageBox.Show($"{dividi}");
+            }
+
 
         }
 
@@ -210,6 +273,13 @@ namespace NumerandoFrazionando
                             // mostro bottoni
 
                             Semplifica_fraz.Visible = true;
+                            somma_bottone.Visible = true;
+                            sottrai_bottone.Visible = true;
+                            moltiplica_button.Visible = true;
+                            divisione_button.Visible = true;
+                            eleva_button.Visible = true;
+                            conversione_button.Visible = true;
+                            conv_fraz_button.Visible = true;
                         }
 
                     }
@@ -227,5 +297,65 @@ namespace NumerandoFrazionando
             denominatore_label.Text = frazione.Denominatore.ToString();
 
         }
+
+        // somma il numeratore con il denominatore
+        private void somma_bottone_Click(object sender, EventArgs e)
+        {
+            frazione.Somma(frazione.Numeratore,frazione.Denominatore);
+        }
+
+        private void sottrai_bottone_Click(object sender, EventArgs e)
+        {
+            frazione.Sottrai(frazione.Numeratore,frazione.Denominatore);
+        }
+
+        private void moltiplica_button_Click(object sender, EventArgs e)
+        {
+            frazione.Moltiplica(frazione.Numeratore, frazione.Denominatore);
+        }
+
+        private void divisione_button_Click(object sender, EventArgs e)
+        {
+            frazione.Dividi(frazione.Numeratore, frazione.Denominatore);
+        }
+
+        private void eleva_button_Click(object sender, EventArgs e)
+        {
+            string titolo_input = "Elevazione Frazione";
+            string frase = "Inserisci l'elevazione";
+            object input_elevazione = Interaction.InputBox(frase, titolo_input);
+
+            if ((string)input_elevazione == "") // user esce o lascia il campo vuoto
+            {
+                MessageBox.Show("Errore nell'aggiunta del denominatore", "ERRORE", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            else
+            {
+                int prova_numero = 0;
+
+                if (!int.TryParse((string)input_elevazione, out prova_numero)) // controllo che l'input sia di tipo intero
+                {
+                    MessageBox.Show("Errore nell'aggiunta del denominatore", "ERRORE", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+                else
+                {
+                    frazione2.Eleva(frazione.Numeratore, frazione.Denominatore, prova_numero);
+                    numeratore_label.Text = frazione2.Numeratore.ToString();
+                    denominatore_label.Text = frazione2.Denominatore.ToString();
+
+                }
+            }   
+        }
+
+        private void conversione_button_Click(object sender, EventArgs e)
+        {
+            frazione2.Converti(frazione.Numeratore, frazione.Denominatore);
+        }
+
+        private void conv_fraz_button_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
+
